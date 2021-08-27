@@ -5,7 +5,7 @@ A mod for Among Us that provides a timer in freeplay for speedrunners.
 
 1. Follow the [Automated Installation guide](https://melonwiki.xyz/#/?id=automated-installation) on the MelonLoader wiki page, installing to the Among Us exe.
 2. Download the DLL from the [releases page](https://github.com/trevtv/AmongUs-SpeedrunningMod/releases)
-3. Put that mod into `Among Us/Mods` and run the game, the mod is now installed and can be used in-game.
+3. Put that mod into `Among Us/Mods` (creating it, if needed) and run the game, the mod is now installed and can be used in-game.
 
 ## Usage
 1. After installation, go into any freeplay map, if installed correctly you should see a clock in the bottom right corner.
