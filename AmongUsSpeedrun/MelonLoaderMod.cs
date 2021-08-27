@@ -152,6 +152,7 @@ namespace AmongUsSpeedrun
             MelonLogger.Msg("hello from " + __instance.name);
 
             List<PlayerTask> tasks = new List<PlayerTask>();
+            List<PlayerTask> nodeTasks = new List<PlayerTask>();
             List<PlayerTask> divertTasks = new List<PlayerTask>();
             foreach (TaskFolder folder in __instance.Root.SubFolders)
                 tasks.AddRange(folder.Children.ToArray());
@@ -167,47 +168,70 @@ namespace AmongUsSpeedrun
                     continue;
                 }
 
+                if (task.GetScriptClassName() == "WeatherNodeTask")
+                {
+                    nodeTasks.Add(task);
+                    continue;
+                }
+
                 AddTask(task);
             }
 
             if (false)
+            {
+                nodeTasks.ForEach((t) => MelonLogger.Msg("NodeTask: " + t.name));
                 divertTasks.ForEach((t) => MelonLogger.Msg("DivertTask: " + t.name));
+            }
 
-            // jank but idk if there is a better way...
-            if (AmongUsClient.Instance.TutorialMapId == 0) // skeld
+            // jank but idk if there is a better way...           
+            switch (AmongUsClient.Instance.TutorialMapId)
             {
-                AddTask(divertTasks.Single((t) => t.name.Contains("RightEngine")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("LeftEngine")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Weapon")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Shield")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("NavPower")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Comms")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("LifeSupp")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Security")));
+                case 0: // skeld
+                    AddTask(divertTasks.Single((t) => t.name.Contains("RightEngine")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("LeftEngine")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Weapon")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Shield")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("NavPower")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Comms")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("LifeSupp")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Security")));
+                    divertTasks.ForEach((t) => AddTask(t));
+                    nodeTasks.ForEach((t) => AddTask(t));
+                    break;
+                case 1: // mira
+                    AddTask(divertTasks.Single((t) => t.name.Contains("LaunchPad")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Medbay")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("HqComms")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Office")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Lab")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Greenhouse")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Admin")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Cafe")));
+                    divertTasks.ForEach((t) => AddTask(t));
+                    nodeTasks.ForEach((t) => AddTask(t));
+                    break;
+                case 2: // polus
+                    AddTask(nodeTasks.Single((t) => t.name.Contains("CA")));
+                    AddTask(nodeTasks.Single((t) => t.name.Contains("TB")));
+                    AddTask(nodeTasks.Single((t) => t.name.Contains("Iro")));
+                    AddTask(nodeTasks.Single((t) => t.name.Contains("Pd")));
+                    AddTask(nodeTasks.Single((t) => t.name.Contains("Gi")));
+                    AddTask(nodeTasks.Single((t) => t.name.Contains("Mlg")));
+                    divertTasks.ForEach((t) => AddTask(t));
+                    nodeTasks.ForEach((t) => AddTask(t));
+                    break;
+                case 4: // airship
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Armory")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Meeting")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Engine")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Hall")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Gap")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Cockpit")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Showers")));
+                    divertTasks.ForEach((t) => AddTask(t));
+                    nodeTasks.ForEach((t) => AddTask(t));
+                    break;
             }
-            else if (AmongUsClient.Instance.TutorialMapId == 1) // mira
-            {
-                AddTask(divertTasks.Single((t) => t.name.Contains("LaunchPad")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Medbay")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("HqComms")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Office")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Lab")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Greenhouse")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Admin")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Cafe")));
-            }
-            else if (AmongUsClient.Instance.TutorialMapId == 4) // airship
-            {
-                AddTask(divertTasks.Single((t) => t.name.Contains("Armory")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Meeting")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Engine")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Hall")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Gap")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Cockpit")));
-                AddTask(divertTasks.Single((t) => t.name.Contains("Showers")));
-            }
-            else
-                divertTasks.ForEach((t) => AddTask(t));
 
             MelonLogger.Msg("finished adding tasks.");
 
@@ -217,6 +241,10 @@ namespace AmongUsSpeedrun
                 taskAddButton.MyTask = task;
                 taskAddButton.AddTask();
                 GameObject.Destroy(taskAddButton.gameObject, 1f);
+                if (divertTasks.Contains(task))
+                    divertTasks.Remove(task);
+                if (nodeTasks.Contains(task))
+                    nodeTasks.Remove(task);
             }
         }
 
