@@ -132,7 +132,7 @@ namespace AmongUsSpeedrun
         {
             if (!toggleAllTasks.Value) return;
 
-            bool temp_isDebug = false;
+            bool isDebugging = false;
             MelonLogger.Msg("hello from " + __instance.name);
 
             List<PlayerTask> tasks = new List<PlayerTask>();
@@ -145,20 +145,24 @@ namespace AmongUsSpeedrun
             PlayerControl.LocalPlayer.ClearTasks();
             foreach (PlayerTask task in tasks)
             {
-                if (temp_isDebug && task.name.ToLower().Contains("code"))
+                if (isDebugging && task.name.ToLower().Contains("code"))
                     AddTask(task);
-                if (temp_isDebug) continue;
 
                 if (task.GetScriptClassName() == "DivertPowerTask")
                 {
                     divertTasks.Add(task);
                     continue;
                 }
-                AddTask(task);
+
+                if (!isDebugging)
+                    AddTask(task);
             }
 
+            if (isDebugging)
+                divertTasks.ForEach((t) => MelonLogger.Msg("DivertTask: " + t.name));
+
             // jank but idk if there is a better way...
-            if (!temp_isDebug)
+            if (!isDebugging)
             {
                 if (AmongUsClient.Instance.TutorialMapId == 0) // skeld
                 {
@@ -181,6 +185,16 @@ namespace AmongUsSpeedrun
                     AddTask(divertTasks.Single((t) => t.name.Contains("Greenhouse")));
                     AddTask(divertTasks.Single((t) => t.name.Contains("Admin")));
                     AddTask(divertTasks.Single((t) => t.name.Contains("Cafe")));
+                }
+                else if (AmongUsClient.Instance.TutorialMapId == 4) // airship
+                {
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Armory")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Meeting")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Engine")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Hall")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Gap")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Cockpit")));
+                    AddTask(divertTasks.Single((t) => t.name.Contains("Showers")));
                 }
                 else
                     divertTasks.ForEach((t) => AddTask(t));
