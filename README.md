@@ -16,3 +16,8 @@ A mod for Among Us that provides a timer in freeplay for speedrunners.
 1. Open `Among Us\UserData\MelonPreferences.cfg` in Notepad after launching the game with the mod at least once.
 2. Find the line that says `ToggleAllTasks = true` and change it to `ToggleAllTasks = false`
 3. Reboot the game and those changes should take effect
+
+## Acknowledgements
+[Sinai](https://github.com/sinai-dev/) - Making [UnityExplorer](https://github.com/sinai-dev/UnityExplorer) and the AssetBundle that allowed me to fix the broken shader issues.
+
+jkr#7021 - Helping with testing and other stuff.
