@@ -16,5 +16,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion(AmongUsSpeedrun.BuildInfo.Version)]
 [assembly: AssemblyFileVersion(AmongUsSpeedrun.BuildInfo.Version)]
 [assembly: NeutralResourcesLanguage("en")]
-[assembly: MelonInfo(typeof(AmongUsSpeedrun.AmongUsSpeedrun), AmongUsSpeedrun.BuildInfo.Name, AmongUsSpeedrun.BuildInfo.Version, AmongUsSpeedrun.BuildInfo.Author, AmongUsSpeedrun.BuildInfo.DownloadLink)]
+[assembly: MelonInfo(typeof(AmongUsSpeedrun.SpeedrunningTools), AmongUsSpeedrun.BuildInfo.Name, AmongUsSpeedrun.BuildInfo.Version, AmongUsSpeedrun.BuildInfo.Author, AmongUsSpeedrun.BuildInfo.DownloadLink)]
 [assembly: MelonGame(null, null)]

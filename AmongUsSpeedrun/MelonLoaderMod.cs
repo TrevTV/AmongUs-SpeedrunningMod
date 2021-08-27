@@ -18,7 +18,7 @@ namespace AmongUsSpeedrun
         public const string DownloadLink = "https://github.com/trevtv/AmongUs-SpeedrunningMod";
     }
 
-    public class AmongUsSpeedrun : MelonMod
+    public class SpeedrunningTools : MelonMod
     {
         public GameObject timerPrefab;
         public Text timerText;
@@ -33,10 +33,10 @@ namespace AmongUsSpeedrun
             MelonLogger.Msg("hi");
             LoadAssets();
             RegisterPrefs();
-            HarmonyInstance.Patch(typeof(TaskAdderGame).GetMethod("Begin"), null, typeof(AmongUsSpeedrun).GetMethod("TaskAdderGamePrefix").ToNewHarmonyMethod());
-            HarmonyInstance.Patch(typeof(Minigame).GetMethod("Close", new Type[] { }), null, typeof(AmongUsSpeedrun).GetMethod("MinigameClose").ToNewHarmonyMethod());
-            HarmonyInstance.Patch(typeof(FreeplayPopover).GetMethod("PlayMap"), null, typeof(AmongUsSpeedrun).GetMethod("FreeplayPlayMap").ToNewHarmonyMethod());
-            HarmonyInstance.Patch(typeof(DialogueBox).GetMethod("Show"), typeof(AmongUsSpeedrun).GetMethod("ShowDialogueBox2").ToNewHarmonyMethod());
+            HarmonyInstance.Patch(typeof(TaskAdderGame).GetMethod("Begin"), null, typeof(SpeedrunningTools).GetMethod("TaskAdderGamePrefix").ToNewHarmonyMethod());
+            HarmonyInstance.Patch(typeof(Minigame).GetMethod("Close", new Type[] { }), null, typeof(SpeedrunningTools).GetMethod("MinigameClose").ToNewHarmonyMethod());
+            HarmonyInstance.Patch(typeof(FreeplayPopover).GetMethod("PlayMap"), null, typeof(SpeedrunningTools).GetMethod("FreeplayPlayMap").ToNewHarmonyMethod());
+            HarmonyInstance.Patch(typeof(DialogueBox).GetMethod("Show"), typeof(SpeedrunningTools).GetMethod("ShowDialogueBox2").ToNewHarmonyMethod());
         }
 
         public void LoadAssets()
