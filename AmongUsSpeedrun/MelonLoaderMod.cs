@@ -1,12 +1,12 @@
-﻿using System;
-using UnityEngine;
-using MelonLoader;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine.UI;
-using System.Linq;
-using System.Diagnostics;
+﻿using MelonLoader;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace AmongUsSpeedrun
 {
@@ -54,7 +54,6 @@ namespace AmongUsSpeedrun
             Il2CppAssetBundle bundle = Il2CppAssetBundleManager.LoadFromMemory(data);
             timerPrefab = bundle.LoadAsset("TimerCanvas.prefab").Cast<GameObject>();
             timerPrefab.hideFlags = HideFlags.DontUnloadUnusedAsset;
-
 
             // fixes a bug where it breaks the game if unityexplorer is installed, and if not, the timer being pink
             if (!File.Exists(Path.Combine(MelonHandler.ModsDirectory, "UnityExplorer.ML.IL2CPP.dll")))
