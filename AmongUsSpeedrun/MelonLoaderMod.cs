@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine.UI;
 using System.Linq;
 using System.Diagnostics;
+using System.Collections;
 
 namespace AmongUsSpeedrun
 {
@@ -105,6 +106,10 @@ namespace AmongUsSpeedrun
                     stopwatch.Stop();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                MelonCoroutines.Start(ReloadScene());
+            }
 
             if (timerActive)
             {
@@ -128,11 +133,24 @@ namespace AmongUsSpeedrun
             }
         }
 
+        private IEnumerator ReloadScene()
+        {
+            int id = AmongUsClient.Instance.TutorialMapId;
+            if (AmongUsClient.Instance)
+                AmongUsClient.Instance.ExitGame(InnerNet.DisconnectReasons.ExitGame);
+            SceneChanger.ChangeScene("MainMenu");
+            while (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != "MainMenu")
+                yield return null;
+            yield return null;
+            HostGameButton hgb = GameObject.FindObjectOfType<HostGameButton>();
+            AmongUsClient.Instance.TutorialMapId = id;
+            hgb.OnClick();
+        }
+
         public static void TaskAdderGamePrefix(TaskAdderGame __instance)
         {
             if (!toggleAllTasks.Value) return;
 
-            bool isDebugging = false;
             MelonLogger.Msg("hello from " + __instance.name);
 
             List<PlayerTask> tasks = new List<PlayerTask>();
@@ -145,60 +163,53 @@ namespace AmongUsSpeedrun
             PlayerControl.LocalPlayer.ClearTasks();
             foreach (PlayerTask task in tasks)
             {
-                if (isDebugging && task.name.ToLower().Contains("code"))
-                    AddTask(task);
-
                 if (task.GetScriptClassName() == "DivertPowerTask")
                 {
                     divertTasks.Add(task);
                     continue;
                 }
 
-                if (!isDebugging)
-                    AddTask(task);
+                AddTask(task);
             }
 
-            if (isDebugging)
+            if (false)
                 divertTasks.ForEach((t) => MelonLogger.Msg("DivertTask: " + t.name));
 
             // jank but idk if there is a better way...
-            if (!isDebugging)
+            if (AmongUsClient.Instance.TutorialMapId == 0) // skeld
             {
-                if (AmongUsClient.Instance.TutorialMapId == 0) // skeld
-                {
-                    AddTask(divertTasks.Single((t) => t.name.Contains("RightEngine")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("LeftEngine")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Weapon")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Shield")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("NavPower")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Comms")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("LifeSupp")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Security")));
-                }
-                else if (AmongUsClient.Instance.TutorialMapId == 1) // mira
-                {
-                    AddTask(divertTasks.Single((t) => t.name.Contains("LaunchPad")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Medbay")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("HqComms")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Office")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Lab")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Greenhouse")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Admin")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Cafe")));
-                }
-                else if (AmongUsClient.Instance.TutorialMapId == 4) // airship
-                {
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Armory")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Meeting")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Engine")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Hall")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Gap")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Cockpit")));
-                    AddTask(divertTasks.Single((t) => t.name.Contains("Showers")));
-                }
-                else
-                    divertTasks.ForEach((t) => AddTask(t));
+                AddTask(divertTasks.Single((t) => t.name.Contains("RightEngine")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("LeftEngine")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Weapon")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Shield")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("NavPower")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Comms")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("LifeSupp")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Security")));
             }
+            else if (AmongUsClient.Instance.TutorialMapId == 1) // mira
+            {
+                AddTask(divertTasks.Single((t) => t.name.Contains("LaunchPad")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Medbay")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("HqComms")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Office")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Lab")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Greenhouse")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Admin")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Cafe")));
+            }
+            else if (AmongUsClient.Instance.TutorialMapId == 4) // airship
+            {
+                AddTask(divertTasks.Single((t) => t.name.Contains("Armory")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Meeting")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Engine")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Hall")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Gap")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Cockpit")));
+                AddTask(divertTasks.Single((t) => t.name.Contains("Showers")));
+            }
+            else
+                divertTasks.ForEach((t) => AddTask(t));
 
             MelonLogger.Msg("finished adding tasks.");
 
