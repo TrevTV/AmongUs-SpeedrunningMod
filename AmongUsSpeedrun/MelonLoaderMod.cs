@@ -15,7 +15,7 @@ namespace AmongUsSpeedrun
         public const string Author = "trev";
         public const string Company = null;
         public const string Version = "1.0.0";
-        public const string DownloadLink = null;
+        public const string DownloadLink = "https://github.com/trevtv/AmongUs-SpeedrunningMod";
     }
 
     public class AmongUsSpeedrun : MelonMod
