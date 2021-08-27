@@ -106,10 +106,9 @@ namespace AmongUsSpeedrun
                     stopwatch.Stop();
                 }
             }
+
             if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
                 MelonCoroutines.Start(ReloadScene());
-            }
 
             if (timerActive)
             {

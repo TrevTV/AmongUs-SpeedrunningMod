@@ -12,6 +12,11 @@ A mod for Among Us that provides a timer in freeplay for speedrunners.
 2. Open the Task Laptop and the Tasks bar should be populated by every task available in that map.
 3. Once you walk away after closing that laptop, the timer will begin counting and will end once the ending dialogue box appears.
 
+## Hotkeys
+`0 (number row)` - If the timer is not running, the timer is restarted. If the timer *is* running, it is stopped.
+
+`9 (number row)` - Reloads the current scene.
+
 ## Toggle Enabling All Tasks
 1. Open `Among Us\UserData\MelonPreferences.cfg` in Notepad after launching the game with the mod at least once.
 2. Find the line that says `ToggleAllTasks = true` and change it to `ToggleAllTasks = false`
