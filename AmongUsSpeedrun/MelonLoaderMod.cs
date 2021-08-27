@@ -11,7 +11,7 @@ namespace AmongUsSpeedrun
 {
     public static class BuildInfo
     {
-        public const string Name = "AmongUsSpeedrun";
+        public const string Name = "Speedrunning_Tools";
         public const string Author = "trev";
         public const string Company = null;
         public const string Version = "1.0.0";
