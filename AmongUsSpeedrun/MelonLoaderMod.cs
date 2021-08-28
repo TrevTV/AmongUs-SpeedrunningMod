@@ -28,6 +28,7 @@ namespace AmongUsSpeedrun
         private static readonly Stopwatch stopwatch = new Stopwatch();
 
         private static MelonPreferences_Entry<bool> toggleAllTasks;
+        private static MelonPreferences_Entry<bool> defaultTasksTrigger;
 
         public override void OnApplicationStart()
         {
@@ -77,6 +78,7 @@ namespace AmongUsSpeedrun
         {
             MelonPreferences_Category category = MelonPreferences.CreateCategory("Speedrun");
             toggleAllTasks = category.CreateEntry("ToggleAllTasks", true);
+            defaultTasksTrigger = category.CreateEntry("DefaultTasksTrigger", false);
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -122,7 +124,7 @@ namespace AmongUsSpeedrun
             {
                 if (PlayerControl.LocalPlayer == null) return;
                 Vector2 velocity = PlayerControl.LocalPlayer.MyPhysics.body.velocity;
-                if (hasClosedLaptop && (velocity.x != 0 || velocity.y != 0))
+                if ((hasClosedLaptop || defaultTasksTrigger.Value) && (velocity.x != 0 || velocity.y != 0))
                 {
                     MelonLogger.Msg("starting the timer!");
                     timerActive = true;
