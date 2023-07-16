@@ -1,4 +1,4 @@
-# Among Us Speedrunning Mod [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S244CYE)
+# Among Us Speedrunning Mod
 A mod for Among Us that provides a timer in freeplay for speedrunners.
 
 ## Installation
